@@ -70,4 +70,11 @@ def db_select():
     table_html += "</table>"
     return table_html
 
-
+@app.route('/db_drop')
+def db_drop():
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute('DROP TABLE Basketball;')
+    conn.commit()
+    conn.close()
+    return "Basketball Table Dropped"
