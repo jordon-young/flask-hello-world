@@ -48,4 +48,26 @@ def db_insert():
     conn.close()
     return "Basketball Table Populated"
 
+@app.route('/db_select')
+def db_select():
+    conn = psycopg2.connect(DATABASE_URL)
+    cur = conn.cursor()
+    cur.execute('SELECT * FROM Basketball;')
+    data = cur.fetchall()
+    conn.commit()
+    conn.close()
+    
+     # Generate an HTML table
+    table_html = "<table border='1'>"
+    table_html += "<tr><th>First</th><th>Last</th><th>City</th><th>Name</th><th>Number</th></tr>"
+
+    for row in data:
+        table_html += "<tr>"
+        for value in row:
+            table_html += f"<td>{value}</td>"
+        table_html += "</tr>"
+
+    table_html += "</table>"
+    return table_html
+
 
